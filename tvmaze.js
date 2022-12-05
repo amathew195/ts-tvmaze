@@ -12726,134 +12726,6 @@ return jQuery;
 } );
 
 
-/***/ }),
-
-/***/ "./tvmaze.ts":
-/*!*******************!*\
-  !*** ./tvmaze.ts ***!
-  \*******************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-var $showsList = $("#showsList");
-var $episodesArea = $("#episodesArea");
-var $searchForm = $("#searchForm");
-var API_URL = 'https://api.tvmaze.com/search/shows';
-var MISSING_IMG_URL = 'https://tinyurl.com/tv-missing';
-/** Given a search term, search for tv shows that match that query.
- *
- *  Returns (promise) array of show objects: [show, show, ...].
- *    Each show object should contain exactly: {id, name, summary, image}
- *    (if no image URL given by API, put in a default image URL)
- */
-function getShowsByTerm(term) {
-    return __awaiter(this, void 0, void 0, function () {
-        var resp;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1.default.get(API_URL, {
-                        params: { q: term }
-                    })];
-                case 1:
-                    resp = _a.sent();
-                    return [2 /*return*/, resp.data];
-            }
-        });
-    });
-}
-/** Given list of shows, create markup for each and to DOM */
-function populateShows(shows) {
-    $showsList.empty();
-    for (var _i = 0, shows_1 = shows; _i < shows_1.length; _i++) {
-        var show = shows_1[_i];
-        console.log(show, "show");
-        var _a = show.show, id = _a.id, name_1 = _a.name, summary = _a.summary, image = _a.image;
-        var $show = $("<div data-show-id=\"".concat(id, "\" class=\"Show col-md-12 col-lg-6 mb-4\">\n         <div class=\"media\">\n           <img\n              src=\"").concat((image === null || image === void 0 ? void 0 : image.medium) || MISSING_IMG_URL, "\"\n              alt=").concat(name_1, "\n              class=\"w-25 me-3\">\n           <div class=\"media-body\">\n             <h5 class=\"text-primary\">").concat(name_1, "</h5>\n             <div><small>").concat(summary, "</small></div>\n             <button class=\"btn btn-outline-light btn-sm Show-getEpisodes\">\n               Episodes\n             </button>\n           </div>\n         </div>\n       </div>\n      "));
-        $showsList.append($show);
-    }
-}
-/** Handle search form submission: get shows from API and display.
- *    Hide episodes area (that only gets shown if they ask for episodes)
- */
-function searchForShowAndDisplay() {
-    return __awaiter(this, void 0, void 0, function () {
-        var term, shows;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    term = $("#searchForm-term").val();
-                    return [4 /*yield*/, getShowsByTerm(term)];
-                case 1:
-                    shows = _a.sent();
-                    $episodesArea.hide();
-                    populateShows(shows);
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-$searchForm.on("submit", function (evt) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    evt.preventDefault();
-                    return [4 /*yield*/, searchForShowAndDisplay()];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    });
-});
-/** Given a show ID, get from API and return (promise) array of episodes:
- *      { id, name, season, number }
- */
-// async function getEpisodesOfShow(id) { }
-/** Write a clear docstring for this function... */
-// function populateEpisodes(episodes) { }
-
-
 /***/ })
 
 /******/ 	});
@@ -12883,12 +12755,178 @@ $searchForm.on("submit", function (evt) {
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
 /******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./tvmaze.ts");
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+/*!*******************!*\
+  !*** ./tvmaze.ts ***!
+  \*******************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+const $showsList = jquery__WEBPACK_IMPORTED_MODULE_1__("#showsList");
+const $episodesArea = jquery__WEBPACK_IMPORTED_MODULE_1__("#episodesArea");
+const $searchForm = jquery__WEBPACK_IMPORTED_MODULE_1__("#searchForm");
+const $episodesList = jquery__WEBPACK_IMPORTED_MODULE_1__("#episodesList");
+const API_URL = "https://api.tvmaze.com/search/shows";
+const MISSING_IMG_URL = "https://tinyurl.com/tv-missing";
+/** Given a search term, search for tv shows that match that query.
+ *
+ *  Returns (promise) array of show objects: [show, show, ...].
+ *    Each show object should contain exactly: {id, name, summary, image}
+ *    (if no image URL given by API, put in a default image URL)
+ */
+function getShowsByTerm(term) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // ADD: Remove placeholder & make request to TVMaze search shows API.
+        const resp = yield axios__WEBPACK_IMPORTED_MODULE_0___default().get(API_URL, {
+            params: { q: term },
+        });
+        return resp.data;
+    });
+}
+/** Given list of shows, create markup for each and to DOM */
+function populateShows(shows) {
+    $showsList.empty();
+    for (let show of shows) {
+        console.log(show, "show");
+        const { id, name, summary, image } = show.show;
+        const $show = jquery__WEBPACK_IMPORTED_MODULE_1__(`<div data-show-id="${id}" class="Show col-md-12 col-lg-6 mb-4">
+         <div class="media">
+           <img
+              src="${(image === null || image === void 0 ? void 0 : image.medium) || MISSING_IMG_URL}"
+              alt=${name}
+              class="w-25 me-3">
+           <div class="media-body">
+             <h5 class="text-primary">${name}</h5>
+             <div><small>${summary}</small></div>
+             <button class="btn btn-outline-light btn-sm Show-getEpisodes">
+               Episodes
+             </button>
+           </div>
+         </div>
+       </div>
+      `);
+        $showsList.append($show);
+    }
+}
+/** Handle search form submission: get shows from API and display.
+ *    Hide episodes area (that only gets shown if they ask for episodes)
+ */
+function searchForShowAndDisplay() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const term = jquery__WEBPACK_IMPORTED_MODULE_1__("#searchForm-term").val();
+        const shows = yield getShowsByTerm(term);
+        $episodesArea.hide();
+        populateShows(shows);
+    });
+}
+$searchForm.on("submit", function (evt) {
+    return __awaiter(this, void 0, void 0, function* () {
+        evt.preventDefault();
+        yield searchForShowAndDisplay();
+    });
+});
+/** Get episodes of a show.
+ *
+ * Given an id of a show
+ *
+ * returns a list of episodes for that show
+ */
+function getEpisodesOfShow(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { data } = yield axios__WEBPACK_IMPORTED_MODULE_0___default().get(`http://api.tvmaze.com/shows/${id}/episodes`);
+        return data;
+    });
+}
+/** Write a clear docstring for this function... */
+// function populateEpisodes(episodes) { }
+/**
+ * Add all episodes for a show to the DOM.
+ *
+ * Accepts a list of episodes
+ *
+ * Returns void.
+ */
+function populateEpisodes(episodes) {
+    $episodesArea.show();
+    for (const { name, season, number } of episodes) {
+        const $li = jquery__WEBPACK_IMPORTED_MODULE_1__(`<li>${name} (Season: ${season} Number: ${number})</li>`);
+        $episodesList.append($li);
+    }
+}
+/**
+ * CLick event listener for episodes button.
+ *
+ * Get the id off the data attribute on the ancestor div.
+ *
+ * Populates the list area.
+ */
+$showsList.on("click", "button.Show-getEpisodes", function (evt) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const id = jquery__WEBPACK_IMPORTED_MODULE_1__(evt.target).closest(".Show").data("show-id");
+        const episodes = yield getEpisodesOfShow(id);
+        populateEpisodes(episodes);
+    });
+});
+
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=tvmaze.js.map
